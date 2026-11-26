@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HER Club · IIIT Bhubaneswar — Higher Studies, Entrepreneurship, Research</title>
+  <meta name="description" content="The Higher studies, Entrepreneurship and Research club at IIIT Bhubaneswar. From being placed to being irreplaceable.">
+  <meta name="theme-color" content="#1b1b1b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231b1b1b'/%3E%3Ctext x='32' y='44' font-size='34' font-family='monospace' font-weight='700' text-anchor='middle' fill='%23f857d0'%3EH%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="scroll-progress-track" aria-hidden="true">
+    <div class="scroll-progress" id="progress"></div>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg site-nav fixed-top" id="nav">
+    <div class="container-fluid px-2 px-sm-3 px-lg-4">
+
+      <a class="navbar-brand brand" href="#top" aria-label="HER Club home">
+        <img src="iiitbbsr_logo.png" alt="IIIT Bhubaneswar" class="nav-iiit-logo">
+        <span class="nav-logo-sep" aria-hidden="true"></span>
+        <span class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+        <span>HER</span>
+        <span class="brand-sub">club</span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2 order-lg-3">
+        <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Switch to dark mode" title="Toggle light/dark theme">
+          <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+        </button>
+
+        <a href="#join" class="btn nav-cta d-none d-sm-inline-block">Join the club</a>
+
+        <button class="navbar-toggler border-0" type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+          aria-controls="navMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse order-lg-2" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-lg-2 py-2 py-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#channels">Channels</a></li>
+          <li class="nav-item"><a class="nav-link" href="#domains">Domains</a></li>
+          <li class="nav-item"><a class="nav-link" href="#perks">Perks</a></li>
+          <li class="nav-item"><a class="nav-link" href="#people">People</a></li>
+          <li class="nav-item"><a class="nav-link" href="#partners">Partners</a></li>
+          <li class="nav-item d-sm-none mt-2">
+            <a href="#join" class="btn nav-cta w-100">Join the club</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ANNOUNCEMENT MARQUEE BAR -->
+  <div class="announcement-bar" id="announcementBar" aria-label="Club Announcements">
+    <div class="container-fluid px-2 px-sm-3 px-lg-4 announcement-bar-inner">
+      <div class="announcement-label">
+        <span class="ann-live-dot" aria-hidden="true"></span>
+        <span>ANNOUNCEMENTS</span>
+      </div>
+
+      <div class="announcement-ticker" id="announcementTicker" role="button" tabindex="0" title="Click to view all announcements">
+        <div class="announcement-track" id="announcementTrack"></div>
+      </div>
+
+      <button type="button" class="announcement-arrow-btn" id="announcementToggle" aria-expanded="false" aria-label="Show all announcements">
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </div>
+
+    <div class="announcement-drawer" id="announcementDrawer">
+      <div class="container-xxl py-3">
+        <div class="announcement-drawer-head">
+          <span class="announcement-drawer-title"><i class="bi bi-broadcast me-2"></i>Notice Board &amp; Upcoming Deadlines</span>
+          <span class="announcement-drawer-hint">HER Club &middot; IIIT Bhubaneswar</span>
+        </div>
+        <ul class="announcement-list" id="announcementList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero snap-section" id="top">
+      <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+      <div class="container-xxl">
+        <h1 class="visually-hidden">HER Club, IIIT Bhubaneswar: Higher Studies, Entrepreneurship, Research and Development</h1>
+        <div class="her" id="her" aria-hidden="true">
+
+          <figure class="letter l-h her-tilt" id="heroLetterH">
+            <svg viewBox="0 0 220 280" role="img">
+              <defs>
+                <linearGradient id="gH" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#E8C073"/>
+                  <stop offset="38%" stop-color="#3E9AB5"/>
+                  <stop offset="72%" stop-color="#134E78"/>
+                  <stop offset="100%" stop-color="#08152B"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#gH)" d="M12 10 H72 V112 H148 V10 H208 V270 H148 V166 H72 V270 H12 Z"/>
+              <text x="42" y="140" fill="#FFFFFF"
+                font-family="JetBrains Mono, monospace"
+                font-weight="700" font-size="14"
+                letter-spacing="3.5" text-anchor="middle"
+                transform="rotate(-90 42 140)">HIGHER STUDIES</text>
+            </svg>
+          </figure>
+
+          <div class="stack hero-fade" aria-hidden="true"><span>I</span><span>I</span><span>I</span><span>T</span></div>
+
+          <figure class="letter l-e her-tilt" id="heroLetterE">
+            <svg viewBox="0 0 210 280" role="img">
+              <defs>
+                <linearGradient id="gE" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#F6A494"/>
+                  <stop offset="45%" stop-color="#BA2538"/>
+                  <stop offset="76%" stop-color="#791322"/>
+                  <stop offset="100%" stop-color="#111622"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#gE)" d="M14 10 H196 V64 H74 V112 H178 V164 H74 V216 H196 V270 H14 Z"/>
+              <text x="44" y="140" fill="#FFFFFF"
+                font-family="JetBrains Mono, monospace"
+                font-weight="700" font-size="13.5"
+                letter-spacing="3" text-anchor="middle"
+                transform="rotate(-90 44 140)">ENTREPRENEURSHIP</text>
+            </svg>
+          </figure>
+
+          <div class="stack hero-fade" aria-hidden="true"><span>B</span><span>B</span><span>S</span><span>R</span></div>
+
+          <figure class="letter l-r her-tilt" id="heroLetterR">
+            <svg viewBox="0 0 225 280" role="img">
+              <defs>
+                <linearGradient id="gR" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#F9B2CC"/>
+                  <stop offset="42%" stop-color="#D9468F"/>
+                  <stop offset="76%" stop-color="#6C2891"/>
+                  <stop offset="100%" stop-color="#0D1128"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#gR)" fill-rule="evenodd" d="M14 10 H134 C178 10 206 38 206 84 C206 118 188 142 158 152 L212 270 H146 L100 162 H74 V270 H14 Z M74 62 V114 H124 C140 114 148 104 148 88 C148 72 140 62 124 62 Z"/>
+              <text x="44" y="140" fill="#FFFFFF"
+                font-family="JetBrains Mono, monospace"
+                font-weight="700" font-size="13.5"
+                letter-spacing="3" text-anchor="middle"
+                transform="rotate(-90 44 140)">RESEARCH &amp; DEV</text>
+            </svg>
+          </figure>
+        </div>
+
+        <p class="tagline hero-fade">From being placed to being <span class="grad-text">irreplaceable.</span></p>
+      </div>
+    </section>
+
+    <!-- CHANNELS -->
+    <section class="section snap-section" id="channels">
+      <div class="container-xxl">
+        <h2 class="sec-title reveal">The three channels</h2>
+        <p class="sec-lead reveal">Your four years are not a waiting room. Pick the channel that fits your question, or move between them.</p>
+        <div class="row g-3 g-md-4 g-xl-5 justify-content-center">
+
+          <div class="col-md-6 col-lg-4 reveal">
+            <article class="channel tilt" style="--g: var(--g-h)">
+              <div class="channel-art art-h" role="img" aria-label="Higher studies campus photo">
+                <img class="channel-photo" src="higher_study.png" alt="Higher studies university campus">
+                <div class="channel-her-slot" id="her-slot-h" aria-hidden="true">
+                  <svg class="channel-her-svg" viewBox="0 0 220 280">
+                    <path class="her-shape" fill="url(#gH)" d="M12 10 H72 V112 H148 V10 H208 V270 H148 V166 H72 V270 H12 Z"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Higher studies</h3>
+              <p>Structured mentorship and global admission pathways beyond undergraduate coursework: MS/PhD guidance, GRE/TOEFL prep, SOP support.</p>
+              <a href="#perks" class="btn-grad" data-perk="3">Understand more <i class="bi bi-arrow-right ms-2"></i></a>
+            </article>
+          </div>
+
+          <div class="col-md-6 col-lg-4 reveal">
+            <article class="channel tilt" style="--g: var(--g-e)">
+              <div class="channel-art art-e" role="img" aria-label="Entrepreneurship currency photo">
+                <img class="channel-photo" src="enterpreneurship.png" alt="Entrepreneurship and venture funding">
+                <div class="channel-her-slot" id="her-slot-e" aria-hidden="true">
+                  <svg class="channel-her-svg" viewBox="0 0 210 280">
+                    <path class="her-shape" fill="url(#gE)" d="M14 10 H196 V64 H74 V112 H178 V164 H74 V216 H196 V270 H14 Z"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Entrepreneurship</h3>
+              <p>Ideas to impact: incubation support, mentoring, industry networking and funding linkages from prototype to product.</p>
+              <a href="#perks" class="btn-grad" data-perk="2">Understand more <i class="bi bi-arrow-right ms-2"></i></a>
+            </article>
+          </div>
+
+          <div class="col-md-6 col-lg-4 reveal">
+            <article class="channel tilt" style="--g: var(--g-r)">
+              <div class="channel-art art-r" role="img" aria-label="Research apparatus photo">
+                <img class="channel-photo" src="research.png" alt="Research and development apparatus">
+                <div class="channel-her-slot" id="her-slot-r" aria-hidden="true">
+                  <svg class="channel-her-svg" viewBox="0 0 225 280">
+                    <path class="her-shape" fill="url(#gR)" fill-rule="evenodd" d="M14 10 H134 C178 10 206 38 206 84 C206 118 188 142 158 152 L212 270 H146 L100 162 H74 V270 H14 Z M74 62 V114 H124 C140 114 148 104 148 88 C148 72 140 62 124 62 Z"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Research &amp; dev</h3>
+              <p>Interdisciplinary projects, lab exposure, journal clubs and a pathway to publications and PhDs, built on real faculty problems.</p>
+              <a href="#domains" class="btn-grad">Understand more <i class="bi bi-arrow-right ms-2"></i></a>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="journey snap-section" aria-labelledby="journeyTitle">
+      <div class="container-xxl">
+        <p class="journey-kicker reveal">THE PROGRESSION</p>
+        <h2 id="journeyTitle" class="journey-title reveal">A career can begin with a question.</h2>
+        <div class="journey-track-wrap reveal">
+          <div class="journey-rail" aria-hidden="true"></div>
+          <div class="journey-grid">
+            <article class="journey-step tilt" style="--step-g: var(--g-h)">
+              <div class="step-top">
+                <span class="step-num">01</span>
+                <span class="step-icon-box"><i class="bi bi-question-circle" aria-hidden="true"></i></span>
+              </div>
+              <div class="step-body">
+                <h3>Question</h3>
+                <p>What don't we understand yet?</p>
+              </div>
+              <div class="step-foot">
+                <span class="step-tag">Curiosity &amp; Problem Framing</span>
+                <span class="step-badge-icon" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+              </div>
+            </article>
+
+            <article class="journey-step tilt" style="--step-g: var(--g-r)">
+              <div class="step-top">
+                <span class="step-num">02</span>
+                <span class="step-icon-box"><i class="bi bi-journal-code" aria-hidden="true"></i></span>
+              </div>
+              <div class="step-body">
+                <h3>Research</h3>
+                <p>Can we investigate and prove it?</p>
+              </div>
+              <div class="step-foot">
+                <span class="step-tag">Faculty Labs &amp; Literature</span>
+                <span class="step-badge-icon" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+              </div>
+            </article>
+
+            <article class="journey-step tilt" style="--step-g: var(--g-e)">
+              <div class="step-top">
+                <span class="step-num">03</span>
+                <span class="step-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+              </div>
+              <div class="step-body">
+                <h3>Prototype</h3>
+                <p>Can we engineer a working system?</p>
+              </div>
+              <div class="step-foot">
+                <span class="step-tag">Hardware, Code &amp; Validation</span>
+                <span class="step-badge-icon" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+              </div>
+            </article>
+
+            <article class="journey-step tilt" style="--step-g: var(--g-bar)">
+              <div class="step-top">
+                <span class="step-num">04</span>
+                <span class="step-icon-box"><i class="bi bi-rocket-takeoff" aria-hidden="true"></i></span>
+              </div>
+              <div class="step-body">
+                <h3>Venture or R&amp;D</h3>
+                <p>Can it scale into real-world value?</p>
+              </div>
+              <div class="step-foot">
+                <span class="step-tag">Startup, Patent or Grad School</span>
+                <span class="step-badge-icon" aria-hidden="true"><i class="bi bi-check2-circle"></i></span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOMAINS -->
+    <section class="section snap-section" id="domains">
+      <div class="container-xxl">
+        <!-- Desktop Honeycomb + Details -->
+        <div class="row align-items-center gy-4 gx-lg-5 d-none d-lg-flex">
+          <div class="col-lg-6 d-flex justify-content-center">
+            <div class="hexgrid" id="hexgrid" role="tablist" aria-label="Research domains"></div>
+          </div>
+          <div class="col-lg-6">
+            <h2 class="sec-title text-center reveal">Active research domains at HER Club</h2>
+            <p class="hint text-center"><span class="hint-badge">Select a hexagon for more information.</span></p>
+            <div class="panel tilt" id="domainPanel" aria-live="polite">
+              <div class="panel-top">
+                <h3 id="dTitle"></h3>
+                <div class="counter" id="dCount"></div>
+              </div>
+              <p id="dDesc"></p>
+              <div class="label">Key research areas</div>
+              <div class="tags" id="dTags"></div>
+              <a href="#join" class="btn-block" id="dBtn">Understand more <i class="bi bi-arrow-right ms-2"></i></a>
+              <div class="auto-bar"><i id="autoBar"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile / Tablet Filter Pills + Horizontal Scrollable Cards -->
+        <div class="d-lg-none mobile-domains-wrap">
+          <h2 class="sec-title text-center">Active research domains</h2>
+          <p class="hint text-center"><span class="hint-badge">Filter or swipe to explore domains</span></p>
+          <div class="mobile-domain-filters" id="mobileDomainFilters" role="tablist" aria-label="Filter research domains"></div>
+          <div class="mobile-domain-scroller" id="mobileDomainCards"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERKS -->
+    <section class="section section-tint snap-section" id="perks">
+      <div class="container-xxl">
+        <h2 class="sec-title reveal">Perks of joining HER Club</h2>
+        <div class="perk-tabs" id="perkTabs" role="tablist" aria-label="Perks"></div>
+        <div class="perk-stage">
+          <button class="perk-arrow" id="perkPrev" aria-label="Previous perk">&lsaquo;</button>
+          <div class="perk-card" id="perkCard" role="tabpanel" aria-live="polite">
+            <div class="perk-art" id="perkArt"></div>
+            <div class="perk-body">
+              <h3 id="perkTitle"></h3>
+              <p id="perkDesc"></p>
+              <ul id="perkList" class="perk-list"></ul>
+              <a href="#join" class="btn-grad" id="perkBtn">Understand more <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+          </div>
+          <button class="perk-arrow" id="perkNext" aria-label="Next perk">&rsaquo;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PEOPLE -->
+    <section class="section snap-section" id="people">
+      <div class="container-xxl">
+        <h2 class="sec-title reveal">People at the front</h2>
+        <p class="sec-lead reveal">Faculty mentors and student coordinators guiding research, ventures, and graduate admissions.</p>
+        <div class="people-scroller" id="peopleRow"></div>
+      </div>
+    </section>
+
+    <!-- PARTNERS + CTA -->
+    <section class="section pb-4 snap-section" id="partners">
+      <div class="container-xxl">
+        <h2 class="sec-title reveal">Our partner institutions</h2>
+      </div>
+      <div class="marquee" aria-label="Partner institutions">
+        <div class="marquee-track" id="marquee"></div>
+      </div>
+
+      <div class="container-xxl" id="join">
+        <blockquote class="quote reveal">
+          &ldquo;The choice is not Placement vs. Research vs. Entrepreneurship. It is spending four years <span class="grad-text warm">becoming more capable</span>.&rdquo;
+        </blockquote>
+        <form class="signup" id="signup" novalidate>
+          <label for="email" class="visually-hidden">IIIT email ID</label>
+          <input type="email" id="email" name="email" placeholder="Enter your IIIT email-ID..." autocomplete="email" required>
+          <button type="submit" class="btn-grad g-e">Get started</button>
+        </form>
+        <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container-xxl d-flex flex-column flex-md-row justify-content-between gap-2 text-center text-md-start">
+      <span>HER Club &middot; Higher studies, Entrepreneurship, Research &middot; IIIT Bhubaneswar</span>
+      <span>Imagine. Innovate. Inspire.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
