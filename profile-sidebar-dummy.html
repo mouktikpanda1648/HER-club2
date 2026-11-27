@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HER Club · Student Profile Sidebar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <style>
+    /* ==========================================================================
+       HER CLUB · ARCHITECTURAL VISUAL SYSTEM (EXACT TOKENS FROM style.css)
+       ========================================================================== */
+    :root,
+    [data-theme="light"] {
+      --ink: #1b1b1b;
+      --paper: #ffffff;
+      --surface: #ffffff;
+      --tint: rgba(245, 245, 243, 0.72);
+      --muted: #6f6f6f;
+      --line: #1b1b1b;
+      --subtle-line: #e2e2df;
+      --grid-line: rgba(27, 27, 27, 0.06);
+      --tag-bg: #555555;
+      --tag-fg: #ffffff;
+      --btn-bg: #1b1b1b;
+      --btn-fg: #ffffff;
+      --btn-hover: #000000;
+      --g-h: linear-gradient(135deg, #00122b 0%, #003a7a 38%, #4aa3b8 70%, #f9d27a 100%);
+      --g-e: linear-gradient(135deg, #12151f 0%, #34456b 35%, #b3182f 68%, #ffc2ab 100%);
+      --g-r: linear-gradient(135deg, #1a1450 0%, #6b3fc0 35%, #f857d0 70%, #ffc2c8 100%);
+      --g-bar: linear-gradient(90deg, #00ff11, #fff700, #ff6600, #ff0000);
+      --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --ink: #f2f2ef;
+      --paper: #0d0d0f;
+      --surface: #151518;
+      --tint: rgba(22, 22, 27, 0.78);
+      --muted: #a3a3ab;
+      --line: #2f2f36;
+      --subtle-line: #24242a;
+      --grid-line: rgba(255, 255, 255, 0.05);
+      --tag-bg: #26262e;
+      --tag-fg: #f2f2ef;
+      --btn-bg: #f2f2ef;
+      --btn-fg: #0d0d0f;
+      --btn-hover: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--mono);
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 36px 36px;
+      background-position: center top;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid #f857d0;
+      outline-offset: 2px;
+    }
+
+    /* ==========================================================================
+       DEMO HOST CONTROLS (TOP-LEFT BAR ON UNOBSTRUCTED CANVAS)
+       ========================================================================== */
+    .host-toolbar {
+      padding: 1.5rem;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .host-brand-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 18px;
+    }
+
+    .brand-mark i {
+      display: block;
+      width: 5px;
+    }
+
+    .brand-mark i:nth-child(1) { height: 18px; background: #155d84; }
+    .brand-mark i:nth-child(2) { height: 13px; background: #b3182f; }
+    .brand-mark i:nth-child(3) { height: 18px; background: #d9468f; }
+
+    .host-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .host-btn {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.55rem 1rem;
+      border: 1.5px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .host-btn:hover {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+    }
+
+    .host-btn.primary {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+    }
+
+    .host-btn.primary:hover {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .host-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+      padding: 0.75rem 0.95rem;
+      border: 1.5px solid var(--line);
+      background: var(--surface);
+    }
+
+    /* ==========================================================================
+       RIGHT-HAND SLIDE-OVER PROFILE DRAWER (NO BLUR OR DIM BACKDROP)
+       ========================================================================== */
+    #profile-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 450px;
+      max-width: 100vw;
+      height: 100vh;
+      background-color: var(--surface);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 36px 36px;
+      border-left: 2px solid var(--line);
+      z-index: 9001;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #profile-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* Top Gradient Bar Strip */
+    .drawer-top-bar {
+      height: 5px;
+      width: 100%;
+      background: var(--g-bar);
+      flex-shrink: 0;
+    }
+
+    /* Drawer Header */
+    .profile-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1.5px solid var(--line);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .profile-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .profile-drawer-header-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+    }
+
+    .profile-drawer-close {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .profile-drawer-close:hover {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+    }
+
+    /* Scrollable Body */
+    .profile-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.15rem 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink) var(--tint);
+    }
+
+    .profile-drawer-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .profile-drawer-body::-webkit-scrollbar-track {
+      background: var(--tint);
+    }
+
+    .profile-drawer-body::-webkit-scrollbar-thumb {
+      background: var(--ink);
+    }
+
+    /* ==========================================================================
+       1. STUDENT IDENTITY CARD (Name, ID, Branch, Batch, Designation, Description)
+       ========================================================================== */
+    .profile-identity-card {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-top: 5px solid transparent;
+      border-image: var(--g-r) 1;
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .identity-top-row {
+      display: flex;
+      gap: 0.95rem;
+      align-items: flex-start;
+    }
+
+    .profile-avatar {
+      width: 68px;
+      height: 68px;
+      min-width: 68px;
+      border: 2px solid var(--line);
+      background: var(--g-h);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .identity-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .identity-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-full-name {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 1.12rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.25;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .student-id-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.16rem 0.5rem;
+      border: 1.5px solid var(--line);
+      background: var(--tint);
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .designation-badge {
+      display: inline-block;
+      margin-top: 0.45rem;
+      padding: 0.2rem 0.62rem;
+      border: 1px solid var(--line);
+      background: var(--tint);
+      color: var(--ink);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .academic-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--subtle-line);
+    }
+
+    .academic-cell {
+      border: 1px solid var(--subtle-line);
+      background: var(--tint);
+      padding: 0.45rem 0.6rem;
+    }
+
+    .academic-label {
+      display: block;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .academic-val {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .profile-description {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: var(--muted);
+      padding-top: 0.65rem;
+      border-top: 1px solid var(--subtle-line);
+    }
+
+    /* ==========================================================================
+       2. PRIMARY ACTION ROW (Write New Article + Edit Profile)
+       ========================================================================== */
+    .profile-action-row {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .btn-grad,
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.72rem 0.85rem;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease, background-position 0.4s ease;
+    }
+
+    .btn-grad {
+      color: #ffffff;
+      border: 2px solid var(--line);
+      background: var(--g, var(--g-r));
+      background-size: 160% 100%;
+      background-position: 0 0;
+    }
+
+    .btn-grad:hover {
+      transform: translateY(-2px);
+      background-position: 100% 0;
+      color: #ffffff;
+    }
+
+    .btn-line {
+      color: var(--ink);
+      border: 2px solid var(--line);
+      background: var(--surface);
+    }
+
+    .btn-line:hover {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       3. SECTION BLOCKS (Self Text, Portfolio, Tags, Experiences, Blog Articles)
+       ========================================================================== */
+    .profile-section-block {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      padding: 0.95rem 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .section-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1.5px solid var(--line);
+    }
+
+    .profile-section-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .section-count-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.42rem;
+      border: 1px solid var(--line);
+      background: var(--tint);
+      color: var(--muted);
+    }
+
+    /* Self Text */
+    .self-text-box {
+      margin: 0;
+      padding: 0.7rem 0.85rem;
+      border-left: 4px solid var(--ink);
+      background: var(--tint);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    /* Portfolio Link */
+    .portfolio-link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid var(--line);
+      background: var(--tint);
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .portfolio-link-card:hover {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+    }
+
+    .portfolio-link-text {
+      font-size: 0.78rem;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.42rem;
+    }
+
+    .tags span {
+      background: var(--tag-bg);
+      color: var(--tag-fg);
+      border: 1px solid var(--line);
+      padding: 0.22rem 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    /* Professional Experiences */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .exp-item {
+      border: 1.5px solid var(--line);
+      border-left: 5px solid transparent;
+      border-image: var(--exp-g, var(--g-h)) 1;
+      background: var(--tint);
+      padding: 0.7rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+    }
+
+    .exp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .exp-role {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .exp-period {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .exp-org {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .exp-summary {
+      margin: 0.2rem 0 0;
+      font-size: 0.76rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    /* Blog Articles */
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .article-item {
+      border: 1.5px solid var(--line);
+      background: var(--surface);
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.18s ease;
+    }
+
+    .article-item:hover {
+      background: var(--tint);
+      transform: translateX(-2px);
+    }
+
+    .article-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .article-channel-tag {
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.12rem 0.45rem;
+      color: #ffffff;
+      background: var(--art-g, var(--g-r));
+    }
+
+    .article-meta {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .article-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .article-excerpt {
+      font-size: 0.75rem;
+      line-height: 1.48;
+      color: var(--muted);
+    }
+
+    /* ==========================================================================
+       EDIT PROFILE MODAL & WRITE ARTICLE MODAL (NO BLUR / NO PAGE DIMMING)
+       ========================================================================== */
+    .architectural-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -48%) scale(0.98);
+      width: 520px;
+      max-width: calc(100vw - 24px);
+      max-height: calc(100vh - 32px);
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-top: 6px solid transparent;
+      border-image: var(--g-e) 1;
+      z-index: 9500;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .architectural-modal.open {
+      display: flex;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1.5px solid var(--line);
+      background: var(--tint);
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+    }
+
+    .modal-body {
+      padding: 1.15rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .field-group label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .field-group input,
+    .field-group textarea,
+    .field-group select {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 0.55rem 0.7rem;
+    }
+
+    .field-group textarea {
+      resize: vertical;
+      min-height: 64px;
+      line-height: 1.45;
+    }
+
+    .exp-editor-box {
+      border: 1.5px solid var(--line);
+      background: var(--tint);
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .exp-editor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .exp-editor-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      font-size: 0.74rem;
+    }
+
+    .mini-remove-btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      cursor: pointer;
+    }
+
+    .mini-remove-btn:hover {
+      background: #b3182f;
+      color: #ffffff;
+      border-color: #b3182f;
+    }
+
+    .modal-footer {
+      padding: 0.85rem 1.15rem;
+      border-top: 1.5px solid var(--line);
+      background: var(--tint);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 575.98px) {
+      .profile-action-row,
+      .academic-meta-grid,
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Unobstructed Host Page Canvas -->
+  <div class="host-toolbar">
+    <div class="host-brand-row">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>HER</span>
+      <span style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);font-weight:500;">club · IIIT Bhubaneswar</span>
+    </div>
+
+    <div class="host-actions">
+      <button type="button" class="host-btn primary" onclick="toggleDrawer()">
+        <i class="bi bi-layout-sidebar-inset-reverse"></i> Toggle Profile Sidebar
+      </button>
+      <button type="button" class="host-btn" onclick="toggleTheme()">
+        <i class="bi bi-circle-half"></i> Toggle Light / Dark Mode
+      </button>
+    </div>
+
+    <p class="host-note">
+      <strong>Architectural Preview:</strong> Background remains 100% crisp with zero backdrop blur or dimming when the right-hand Student Profile Sidebar or Edit Profile Modal is open.
+    </p>
+  </div>
+
+  <!-- ========================================================================
+       STUDENT PROFILE SIDEBAR DRAWER (NO DIM/BLUR BACKDROP)
+       ======================================================================== -->
+  <aside id="profile-drawer" class="open" aria-label="Student Profile Sidebar">
+    <div class="drawer-top-bar" aria-hidden="true"></div>
+
+    <div class="profile-drawer-header">
+      <div class="profile-header-left">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="profile-drawer-header-title">Student Profile</span>
+      </div>
+      <button type="button" class="profile-drawer-close" onclick="toggleDrawer()" title="Close Sidebar" aria-label="Close Sidebar">✕</button>
+    </div>
+
+    <div class="profile-drawer-body">
+      <!-- 1. Identity Block: Name, ID, Branch, Batch, Designation, Description -->
+      <section class="profile-identity-card" aria-label="Student Identity">
+        <div class="identity-top-row">
+          <div class="profile-avatar" id="viewAvatar">AM</div>
+          <div class="identity-main">
+            <div class="identity-name-row">
+              <h2 class="profile-full-name" id="viewName">Aarav Mohanty</h2>
+              <span class="student-id-badge" id="viewId">B126042</span>
+            </div>
+            <span class="designation-badge" id="viewDesignation">Research Lead · Quantum &amp; AI Vertical</span>
+          </div>
+        </div>
+
+        <div class="academic-meta-grid">
+          <div class="academic-cell">
+            <span class="academic-label">Branch</span>
+            <span class="academic-val" id="viewBranch">Computer Science &amp; Engg.</span>
+          </div>
+          <div class="academic-cell">
+            <span class="academic-label">Batch</span>
+            <span class="academic-val" id="viewBatch">Batch of 2030 (2026–2030)</span>
+          </div>
+        </div>
+
+        <p class="profile-description" id="viewDescription">
+          Undergraduate researcher investigating quantum-resilient communication protocols and low-light computer vision systems at IIIT Bhubaneswar.
+        </p>
+      </section>
+
+      <!-- 2. Primary Actions: Button to Write New Article & Edit Profile -->
+      <div class="profile-action-row">
+        <button type="button" class="btn-grad" style="--g:var(--g-r)" onclick="openArticleModal()">
+          <i class="bi bi-pencil-square"></i> Write New Article
+        </button>
+        <button type="button" class="btn-line" onclick="openEditModal()">
+          <i class="bi bi-sliders"></i> Edit Profile
+        </button>
+      </div>
+
+      <!-- 3. Self Text -->
+      <section class="profile-section-block" aria-label="Self Text">
+        <div class="section-head-row">
+          <span class="profile-section-label"><i class="bi bi-quote"></i> Self Text</span>
+        </div>
+        <p class="self-text-box" id="viewSelfText">
+          "Focused on turning classroom theory into reproducible benchmarks and open-source research artifacts. Open to collaborating on Qiskit simulations, PQC implementations, and graduate fellowship prep."
+        </p>
+      </section>
+
+      <!-- 4. Portfolio Link -->
+      <section class="profile-section-block" aria-label="Portfolio Link">
+        <div class="section-head-row">
+          <span class="profile-section-label"><i class="bi bi-link-45deg"></i> Portfolio Link</span>
+        </div>
+        <a href="https://aaravmohanty.dev" target="_blank" rel="noopener noreferrer" class="portfolio-link-card" id="viewPortfolioLink">
+          <span class="portfolio-link-text" id="viewPortfolioText">https://aaravmohanty.dev</span>
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
+      </section>
+
+      <!-- 5. Tags -->
+      <section class="profile-section-block" aria-label="Tags">
+        <div class="section-head-row">
+          <span class="profile-section-label"><i class="bi bi-hash"></i> Tags</span>
+          <span class="section-count-tag" id="viewTagsCount">5</span>
+        </div>
+        <div class="tags" id="viewTags"></div>
+      </section>
+
+      <!-- 6. Professional Experiences -->
+      <section class="profile-section-block" aria-label="Professional Experiences">
+        <div class="section-head-row">
+          <span class="profile-section-label"><i class="bi bi-briefcase"></i> Professional Experiences</span>
+          <span class="section-count-tag" id="viewExpCount">2</span>
+        </div>
+        <div class="exp-list" id="viewExperiences"></div>
+      </section>
+
+      <!-- 7. Blog Articles -->
+      <section class="profile-section-block" aria-label="Blog Articles">
+        <div class="section-head-row">
+          <span class="profile-section-label"><i class="bi bi-journal-text"></i> Blog Articles</span>
+          <span class="section-count-tag" id="viewArticlesCount">3</span>
+        </div>
+        <div class="article-list" id="viewArticles"></div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       EDIT PROFILE MODAL (Edit Profile Page / Modal from Sketch)
+       ======================================================================== -->
+  <div class="architectural-modal" id="editProfileModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="modal-header">
+      <span class="modal-title" id="editModalTitle"><i class="bi bi-sliders me-1"></i> Edit Student Profile</span>
+      <button type="button" class="profile-drawer-close" onclick="closeEditModal()" aria-label="Close Edit Modal">✕</button>
+    </div>
+    <form class="modal-body" id="editProfileForm" onsubmit="saveProfileChanges(event)">
+      <div class="form-row-2">
+        <div class="field-group">
+          <label for="inputName">Full Name</label>
+          <input type="text" id="inputName" required />
+        </div>
+        <div class="field-group">
+          <label for="inputId">Student ID</label>
+          <input type="text" id="inputId" required />
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="field-group">
+          <label for="inputBranch">Branch</label>
+          <input type="text" id="inputBranch" required />
+        </div>
+        <div class="field-group">
+          <label for="inputBatch">Batch</label>
+          <input type="text" id="inputBatch" required />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="inputDesignation">Designation</label>
+        <input type="text" id="inputDesignation" required />
+      </div>
+
+      <div class="field-group">
+        <label for="inputDescription">Description</label>
+        <textarea id="inputDescription" rows="2" required></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="inputSelfText">Self Text</label>
+        <textarea id="inputSelfText" rows="2"></textarea>
+      </div>
+
+      <div class="form-row-2">
+        <div class="field-group">
+          <label for="inputPortfolio">Portfolio Link</label>
+          <input type="url" id="inputPortfolio" required />
+        </div>
+        <div class="field-group">
+          <label for="inputTags">Tags (Comma-separated)</label>
+          <input type="text" id="inputTags" />
+        </div>
+      </div>
+
+      <div class="exp-editor-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Professional Experiences</span>
+        </div>
+        <div class="exp-editor-list" id="modalExpList"></div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="newExpRole">New Role</label>
+            <input type="text" id="newExpRole" placeholder="e.g. Summer Research Intern" />
+          </div>
+          <div class="field-group">
+            <label for="newExpOrg">Organization / Lab</label>
+            <input type="text" id="newExpOrg" placeholder="e.g. ISI Kolkata" />
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="newExpPeriod">Duration</label>
+            <input type="text" id="newExpPeriod" placeholder="e.g. May – Jul 2026" />
+          </div>
+          <div class="field-group" style="justify-content:flex-end;">
+            <button type="button" class="btn-line" style="padding:0.52rem;" onclick="addExperienceItem()">
+              <i class="bi bi-plus-lg"></i> Add Experience
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="margin:0 -1.15rem -1.15rem;">
+        <button type="button" class="btn-line" onclick="closeEditModal()">Cancel</button>
+        <button type="submit" class="btn-grad" style="--g:var(--g-h)">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ========================================================================
+       WRITE NEW ARTICLE MODAL (Triggered by "Write New Article" Button)
+       ======================================================================== -->
+  <div class="architectural-modal" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="articleModalTitle" style="border-image:var(--g-r) 1;">
+    <div class="modal-header">
+      <span class="modal-title" id="articleModalTitle"><i class="bi bi-pencil-square me-1"></i> Write New Article</span>
+      <button type="button" class="profile-drawer-close" onclick="closeArticleModal()" aria-label="Close Article Modal">✕</button>
+    </div>
+    <form class="modal-body" onsubmit="publishArticle(event)">
+      <div class="field-group">
+        <label for="artTitle">Article Headline</label>
+        <input type="text" id="artTitle" placeholder="e.g. Benchmarking Post-Quantum Key Exchange on Edge Hardware" required />
+      </div>
+
+      <div class="form-row-2">
+        <div class="field-group">
+          <label for="artChannel">HER Channel</label>
+          <select id="artChannel">
+            <option value="Research & Dev">Research &amp; Dev</option>
+            <option value="Higher Studies">Higher Studies</option>
+            <option value="Entrepreneurship">Entrepreneurship</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="artReadTime">Read Time</label>
+          <input type="text" id="artReadTime" value="5 min read" required />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="artExcerpt">Summary / Excerpt</label>
+        <textarea id="artExcerpt" rows="3" placeholder="Write a concise summary of your findings, prototype, or grad-school notes..." required></textarea>
+      </div>
+
+      <div class="modal-footer" style="margin:0 -1.15rem -1.15rem;">
+        <button type="button" class="btn-line" onclick="closeArticleModal()">Cancel</button>
+        <button type="submit" class="btn-grad" style="--g:var(--g-r)">Publish to Profile</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       DUMMY STATE & INTERACTIVE CONTROLLER (ZERO EXTERNAL DEPENDENCIES)
+       ========================================================================== */
+    const profileState = {
+      name: 'Mouktik Panda',
+      id: 'B126116',
+      branch: 'Computer Science & Engg.',
+      batch: 'Batch of 2030 (2026–2030)',
+      designation: 'Research Lead · Quantum & AI Vertical',
+      description: 'Undergraduate researcher investigating quantum-resilient communication protocols and low-light computer vision systems at IIIT Bhubaneswar.',
+      selfText: '"Focused on turning classroom theory into reproducible benchmarks and open-source research artifacts. Open to collaborating on Qiskit simulations, PQC implementations, and graduate fellowship prep."',
+      portfolio: 'https://github.com/mouktikpanda1648/',
+      tags: [
+        'Quantum Simulation',
+        'Computer Vision',
+        'Post-Quantum Crypto',
+        'Deep-Tech',
+        'MS/PhD Track'
+      ],
+      experiences: [
+        {
+          role: 'Undergraduate Research Intern',
+          org: 'Indian Statistical Institute (ISI), Kolkata',
+          period: 'May 2026 – Jul 2026',
+          summary: 'Simulated lattice-based key encapsulation schemes and evaluated side-channel resilience under noisy channel constraints.',
+          grad: 'var(--g-h)'
+        },
+        {
+          role: 'Student Coordinator · R&D Vertical',
+          org: 'HER Club, IIIT Bhubaneswar',
+          period: 'Aug 2025 – Present',
+          summary: 'Co-leading weekly journal club discussions and faculty lab matchmaking for 40+ sophomore researchers.',
+          grad: 'var(--g-r)'
+        }
+      ],
+      articles: [
+        {
+          title: 'Designing Noise-Resilient BB84 Quantum Key Distribution Circuits in Qiskit',
+          channel: 'Research & Dev',
+          date: 'Nov 14, 2026',
+          readTime: '6 min read',
+          excerpt: 'A practical walkthrough of depolarizing error mitigation and decoy-state estimation for campus quantum networking labs.'
+        },
+        {
+          title: 'Structuring a Research-First Statement of Purpose for Fall MS/PhD Applications',
+          channel: 'Higher Studies',
+          date: 'Oct 22, 2026',
+          readTime: '4 min read',
+          excerpt: 'How to connect undergraduate lab deliverables directly to prospective faculty problem statements.'
+        },
+        {
+          title: 'From Lab Prototype to Deep-Tech Pre-Incubation: Lessons from Campus Demo Day',
+          channel: 'Entrepreneurship',
+          date: 'Sep 09, 2026',
+          readTime: '5 min read',
+          excerpt: 'Validating hardware-accelerated edge inference with local industrial partners before seeking seed grants.'
+        }
+      ]
+    };
+
+    let draftExperiences = [];
+
+    function getInitials(fullName) {
+      return fullName
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(part => part[0]?.toUpperCase() || '')
+        .join('') || 'ST';
+    }
+
+    function channelGradient(channel) {
+      if (channel === 'Higher Studies') return 'var(--g-h)';
+      if (channel === 'Entrepreneurship') return 'var(--g-e)';
+      return 'var(--g-r)';
+    }
+
+    function renderProfile() {
+      document.getElementById('viewAvatar').textContent = getInitials(profileState.name);
+      document.getElementById('viewName').textContent = profileState.name;
+      document.getElementById('viewId').textContent = profileState.id;
+      document.getElementById('viewBranch').textContent = profileState.branch;
+      document.getElementById('viewBatch').textContent = profileState.batch;
+      document.getElementById('viewDesignation').textContent = profileState.designation;
+      document.getElementById('viewDescription').textContent = profileState.description;
+      document.getElementById('viewSelfText').textContent = profileState.selfText;
+
+      const portLink = document.getElementById('viewPortfolioLink');
+      portLink.href = profileState.portfolio;
+      document.getElementById('viewPortfolioText').textContent = profileState.portfolio;
+
+      // Tags
+      document.getElementById('viewTagsCount').textContent = profileState.tags.length;
+      document.getElementById('viewTags').innerHTML = profileState.tags
+        .map(tag => `<span>${escapeHtml(tag)}</span>`)
+        .join('');
+
+      // Experiences
+      document.getElementById('viewExpCount').textContent = profileState.experiences.length;
+      document.getElementById('viewExperiences').innerHTML = profileState.experiences
+        .map(exp => `
+          <article class="exp-item" style="--exp-g:${exp.grad || 'var(--g-h)'}">
+            <div class="exp-top">
+              <div class="exp-role">${escapeHtml(exp.role)}</div>
+              <span class="exp-period">${escapeHtml(exp.period)}</span>
+            </div>
+            <div class="exp-org">${escapeHtml(exp.org)}</div>
+            ${exp.summary ? `<p class="exp-summary">${escapeHtml(exp.summary)}</p>` : ''}
+          </article>
+        `)
+        .join('');
+
+      // Blog Articles
+      document.getElementById('viewArticlesCount').textContent = profileState.articles.length;
+      document.getElementById('viewArticles').innerHTML = profileState.articles
+        .map(art => `
+          <a href="#article" class="article-item" onclick="event.preventDefault()">
+            <div class="article-top">
+              <span class="article-channel-tag" style="--art-g:${channelGradient(art.channel)}">${escapeHtml(art.channel)}</span>
+              <span class="article-meta">${escapeHtml(art.date)} · ${escapeHtml(art.readTime)}</span>
+            </div>
+            <div class="article-title">${escapeHtml(art.title)}</div>
+            <div class="article-excerpt">${escapeHtml(art.excerpt)}</div>
+          </a>
+        `)
+        .join('');
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* Drawer & Theme Controls */
+    function toggleDrawer() {
+      document.getElementById('profile-drawer').classList.toggle('open');
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+
+    /* Edit Profile Modal */
+    function openEditModal() {
+      closeArticleModal();
+      document.getElementById('inputName').value = profileState.name;
+      document.getElementById('inputId').value = profileState.id;
+      document.getElementById('inputBranch').value = profileState.branch;
+      document.getElementById('inputBatch').value = profileState.batch;
+      document.getElementById('inputDesignation').value = profileState.designation;
+      document.getElementById('inputDescription').value = profileState.description;
+      document.getElementById('inputSelfText').value = profileState.selfText;
+      document.getElementById('inputPortfolio').value = profileState.portfolio;
+      document.getElementById('inputTags').value = profileState.tags.join(', ');
+
+      draftExperiences = profileState.experiences.map(e => ({ ...e }));
+      renderModalExpList();
+
+      document.getElementById('editProfileModal').classList.add('open');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editProfileModal').classList.remove('open');
+    }
+
+    function renderModalExpList() {
+      const list = document.getElementById('modalExpList');
+      list.innerHTML = draftExperiences
+        .map((exp, idx) => `
+          <div class="exp-editor-row">
+            <div>
+              <strong>${escapeHtml(exp.role)}</strong> · ${escapeHtml(exp.org)} <span style="color:var(--muted);">(${escapeHtml(exp.period)})</span>
+            </div>
+            <button type="button" class="mini-remove-btn" onclick="removeExperienceItem(${idx})">Remove</button>
+          </div>
+        `)
+        .join('');
+    }
+
+    function addExperienceItem() {
+      const role = document.getElementById('newExpRole').value.trim();
+      const org = document.getElementById('newExpOrg').value.trim();
+      const period = document.getElementById('newExpPeriod').value.trim() || '2026';
+      if (!role || !org) return;
+
+      draftExperiences.push({
+        role,
+        org,
+        period,
+        summary: 'Contributed to research engineering and technical deliverables.',
+        grad: draftExperiences.length % 2 === 0 ? 'var(--g-h)' : 'var(--g-e)'
+      });
+
+      document.getElementById('newExpRole').value = '';
+      document.getElementById('newExpOrg').value = '';
+      document.getElementById('newExpPeriod').value = '';
+      renderModalExpList();
+    }
+
+    function removeExperienceItem(idx) {
+      draftExperiences.splice(idx, 1);
+      renderModalExpList();
+    }
+
+    function saveProfileChanges(e) {
+      e.preventDefault();
+      profileState.name = document.getElementById('inputName').value.trim();
+      profileState.id = document.getElementById('inputId').value.trim();
+      profileState.branch = document.getElementById('inputBranch').value.trim();
+      profileState.batch = document.getElementById('inputBatch').value.trim();
+      profileState.designation = document.getElementById('inputDesignation').value.trim();
+      profileState.description = document.getElementById('inputDescription').value.trim();
+      profileState.selfText = document.getElementById('inputSelfText').value.trim();
+      profileState.portfolio = document.getElementById('inputPortfolio').value.trim();
+      profileState.tags = document.getElementById('inputTags').value
+        .split(',')
+        .map(t => t.trim())
+        .filter(Boolean);
+      profileState.experiences = draftExperiences;
+
+      renderProfile();
+      closeEditModal();
+    }
+
+    /* Write New Article Modal */
+    function openArticleModal() {
+      closeEditModal();
+      document.getElementById('articleModal').classList.add('open');
+    }
+
+    function closeArticleModal() {
+      document.getElementById('articleModal').classList.remove('open');
+    }
+
+    function publishArticle(e) {
+      e.preventDefault();
+      const title = document.getElementById('artTitle').value.trim();
+      const channel = document.getElementById('artChannel').value;
+      const readTime = document.getElementById('artReadTime').value.trim() || '4 min read';
+      const excerpt = document.getElementById('artExcerpt').value.trim();
+      if (!title || !excerpt) return;
+
+      profileState.articles.unshift({
+        title,
+        channel,
+        date: 'Nov 27, 2026',
+        readTime,
+        excerpt
+      });
+
+      document.getElementById('artTitle').value = '';
+      document.getElementById('artExcerpt').value = '';
+      renderProfile();
+      closeArticleModal();
+    }
+
+    /* Keyboard Escape Handling */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const editOpen = document.getElementById('editProfileModal').classList.contains('open');
+        const artOpen = document.getElementById('articleModal').classList.contains('open');
+        if (editOpen) return closeEditModal();
+        if (artOpen) return closeArticleModal();
+        toggleDrawer();
+      }
+    });
+
+    renderProfile();
+  </script>
+</body>
+</html>
