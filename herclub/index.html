@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HER Club · IIIT Bhubaneswar — Higher Studies, Entrepreneurship, Research</title>
@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-grid">
   <div class="scroll-progress-track" aria-hidden="true">
     <div class="scroll-progress" id="progress"></div>
   </div>
@@ -55,10 +55,10 @@
       <div class="collapse navbar-collapse order-lg-2" id="navMenu">
         <ul class="navbar-nav mx-auto gap-lg-2 py-2 py-lg-0">
           <li class="nav-item"><a class="nav-link" href="#channels">Channels</a></li>
+          <li class="nav-item"><a class="nav-link" href="#partners">Partners</a></li>
           <li class="nav-item"><a class="nav-link" href="#domains">Domains</a></li>
           <li class="nav-item"><a class="nav-link" href="#perks">Perks</a></li>
           <li class="nav-item"><a class="nav-link" href="#people">People</a></li>
-          <li class="nav-item"><a class="nav-link" href="#partners">Partners</a></li>
           <li class="nav-item d-sm-none mt-2">
             <a href="#join" class="btn nav-cta w-100">Join the club</a>
           </li>
@@ -68,7 +68,7 @@
     </div>
   </nav>
 
-  <!-- ANNOUNCEMENT MARQUEE BAR -->
+  <!-- ANNOUNCEMENT MARQUEE BAR (Bootstrap Collapse powered) -->
   <div class="announcement-bar" id="announcementBar" aria-label="Club Announcements">
     <div class="container-fluid px-2 px-sm-3 px-lg-4 announcement-bar-inner">
       <div class="announcement-label">
@@ -76,16 +76,16 @@
         <span>ANNOUNCEMENTS</span>
       </div>
 
-      <div class="announcement-ticker" id="announcementTicker" role="button" tabindex="0" title="Click to view all announcements">
+      <div class="announcement-ticker" data-bs-toggle="collapse" data-bs-target="#announcementDrawer" role="button" tabindex="0" aria-controls="announcementDrawer" aria-expanded="false" title="Click to view all announcements">
         <div class="announcement-track" id="announcementTrack"></div>
       </div>
 
-      <button type="button" class="announcement-arrow-btn" id="announcementToggle" aria-expanded="false" aria-label="Show all announcements">
+      <button type="button" class="announcement-arrow-btn" id="announcementToggle" data-bs-toggle="collapse" data-bs-target="#announcementDrawer" aria-controls="announcementDrawer" aria-expanded="false" aria-label="Show all announcements">
         <i class="bi bi-chevron-down"></i>
       </button>
     </div>
 
-    <div class="announcement-drawer" id="announcementDrawer">
+    <div class="collapse announcement-drawer" id="announcementDrawer">
       <div class="container-xxl py-3">
         <div class="announcement-drawer-head">
           <span class="announcement-drawer-title"><i class="bi bi-broadcast me-2"></i>Notice Board &amp; Upcoming Deadlines</span>
@@ -98,8 +98,8 @@
 
   <main id="main">
 
-    <!-- HERO -->
-    <section class="hero snap-section" id="top">
+    <!-- HERO (Light Snap 1) -->
+    <section class="hero light-snap" id="top">
       <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
       <div class="container-xxl">
         <h1 class="visually-hidden">HER Club, IIIT Bhubaneswar: Higher Studies, Entrepreneurship, Research and Development</h1>
@@ -116,7 +116,7 @@
                 </linearGradient>
               </defs>
               <path fill="url(#gH)" d="M12 10 H72 V112 H148 V10 H208 V270 H148 V166 H72 V270 H12 Z"/>
-              <text x="42" y="140" fill="#FFFFFF"
+              <text class="her-inner-text" x="42" y="140" fill="#FFFFFF"
                 font-family="JetBrains Mono, monospace"
                 font-weight="700" font-size="14"
                 letter-spacing="3.5" text-anchor="middle"
@@ -137,7 +137,7 @@
                 </linearGradient>
               </defs>
               <path fill="url(#gE)" d="M14 10 H196 V64 H74 V112 H178 V164 H74 V216 H196 V270 H14 Z"/>
-              <text x="44" y="140" fill="#FFFFFF"
+              <text class="her-inner-text" x="44" y="140" fill="#FFFFFF"
                 font-family="JetBrains Mono, monospace"
                 font-weight="700" font-size="13.5"
                 letter-spacing="3" text-anchor="middle"
@@ -158,7 +158,7 @@
                 </linearGradient>
               </defs>
               <path fill="url(#gR)" fill-rule="evenodd" d="M14 10 H134 C178 10 206 38 206 84 C206 118 188 142 158 152 L212 270 H146 L100 162 H74 V270 H14 Z M74 62 V114 H124 C140 114 148 104 148 88 C148 72 140 62 124 62 Z"/>
-              <text x="44" y="140" fill="#FFFFFF"
+              <text class="her-inner-text" x="44" y="140" fill="#FFFFFF"
                 font-family="JetBrains Mono, monospace"
                 font-weight="700" font-size="13.5"
                 letter-spacing="3" text-anchor="middle"
@@ -171,11 +171,11 @@
       </div>
     </section>
 
-    <!-- CHANNELS -->
-    <section class="section snap-section" id="channels">
+    <!-- CHANNELS (Light Snap 2 + One-Screen Desktop Fit) -->
+    <section class="section light-snap" id="channels">
       <div class="container-xxl">
         <h2 class="sec-title reveal">The three channels</h2>
-        <p class="sec-lead reveal">Your four years are not a waiting room. Pick the channel that fits your question, or move between them.</p>
+        <div class="mt-2 mb-3"><p class="sec-lead reveal">Your four years are not a waiting room. Pick the channel that fits your question, or move between them.</p></div>
         <div class="row g-3 g-md-4 g-xl-5 justify-content-center">
 
           <div class="col-md-6 col-lg-4 reveal">
@@ -230,8 +230,18 @@
       </div>
     </section>
 
+    <!-- PARTNERS (Moved directly after Channels, natural auto height) -->
+    <section class="partners-band py-5" id="partners">
+      <div class="container-xxl">
+        <h2 class="sec-title reveal mb-4">Our partner institutions</h2>
+      </div>
+      <div class="marquee" aria-label="Partner institutions">
+        <div class="marquee-track" id="marquee"></div>
+      </div>
+    </section>
+
     <!-- JOURNEY -->
-    <section class="journey snap-section" aria-labelledby="journeyTitle">
+    <section class="journey" aria-labelledby="journeyTitle">
       <div class="container-xxl">
         <p class="journey-kicker reveal">THE PROGRESSION</p>
         <h2 id="journeyTitle" class="journey-title reveal">A career can begin with a question.</h2>
@@ -302,8 +312,8 @@
       </div>
     </section>
 
-    <!-- DOMAINS -->
-    <section class="section snap-section" id="domains">
+    <!-- DOMAINS (Light Snap 3 + One-Screen Desktop Fit) -->
+    <section class="section light-snap" id="domains">
       <div class="container-xxl">
         <!-- Desktop Honeycomb + Details -->
         <div class="row align-items-center gy-4 gx-lg-5 d-none d-lg-flex">
@@ -311,7 +321,7 @@
             <div class="hexgrid" id="hexgrid" role="tablist" aria-label="Research domains"></div>
           </div>
           <div class="col-lg-6">
-            <h2 class="sec-title text-center reveal">Active research domains at HER Club</h2>
+            <h2 class="sec-title text-center reveal">Verticals at HER Club</h2>
             <p class="hint text-center"><span class="hint-badge">Select a hexagon for more information.</span></p>
             <div class="panel tilt" id="domainPanel" aria-live="polite">
               <div class="panel-top">
@@ -329,7 +339,7 @@
 
         <!-- Mobile / Tablet Filter Pills + Horizontal Scrollable Cards -->
         <div class="d-lg-none mobile-domains-wrap">
-          <h2 class="sec-title text-center">Active research domains</h2>
+          <h2 class="sec-title text-center">Verticals at HER Club</h2>
           <p class="hint text-center"><span class="hint-badge">Filter or swipe to explore domains</span></p>
           <div class="mobile-domain-filters" id="mobileDomainFilters" role="tablist" aria-label="Filter research domains"></div>
           <div class="mobile-domain-scroller" id="mobileDomainCards"></div>
@@ -337,8 +347,8 @@
       </div>
     </section>
 
-    <!-- PERKS -->
-    <section class="section section-tint snap-section" id="perks">
+    <!-- PERKS (One-Screen Desktop Fit) -->
+    <section class="section section-tint" id="perks">
       <div class="container-xxl">
         <h2 class="sec-title reveal">Perks of joining HER Club</h2>
         <div class="perk-tabs" id="perkTabs" role="tablist" aria-label="Perks"></div>
@@ -358,25 +368,18 @@
       </div>
     </section>
 
-    <!-- PEOPLE -->
-    <section class="section snap-section" id="people">
+    <!-- PEOPLE / LEADS (Clean Adjusted Layout, Natural Height) -->
+    <section class="section py-5" id="people">
       <div class="container-xxl">
         <h2 class="sec-title reveal">People at the front</h2>
-        <p class="sec-lead reveal">Faculty mentors and student coordinators guiding research, ventures, and graduate admissions.</p>
+        <p class="sec-lead reveal mb-4">Faculty mentors and student coordinators guiding research, ventures, and graduate admissions.</p>
         <div class="people-scroller" id="peopleRow"></div>
       </div>
     </section>
 
-    <!-- PARTNERS + CTA -->
-    <section class="section pb-4 snap-section" id="partners">
+    <!-- JOIN CTA -->
+    <section class="join-band py-5" id="join">
       <div class="container-xxl">
-        <h2 class="sec-title reveal">Our partner institutions</h2>
-      </div>
-      <div class="marquee" aria-label="Partner institutions">
-        <div class="marquee-track" id="marquee"></div>
-      </div>
-
-      <div class="container-xxl" id="join">
         <blockquote class="quote reveal">
           &ldquo;The choice is not Placement vs. Research vs. Entrepreneurship. It is spending four years <span class="grad-text warm">becoming more capable</span>.&rdquo;
         </blockquote>
@@ -389,7 +392,56 @@
       </div>
     </section>
   </main>
+<!-- SCIENTIFIC CORNER WEDGE SCATTER -->
+<div class="corner-scatter corner-bl d-none d-md-block" aria-hidden="true">
+  <div class="corner-formulas">
+    <span>&nabla;&times;E = &minus;&part;B/&part;t</span>
+    <span>&Hcirc;|&psi;&rang; = E|&psi;&rang;</span>
+  </div>
+  <!-- Vertical taper up the left edge -->
+  <i class="bi bi-atom" style="--x:0px; --y:42px; --s:1.05rem;"></i>
+  <i class="bi bi-compass" style="--x:0px; --y:76px; --s:1.1rem;"></i>
+  <i class="bi bi-magnet" style="--x:2px; --y:112px; --s:0.95rem;"></i>
+  <i class="bi bi-lightbulb" style="--x:0px; --y:148px; --s:0.85rem;"></i>
+  <i class="bi bi-infinity" style="--x:2px; --y:182px; --s:0.75rem;"></i>
+  <!-- Diagonal inner fill -->
+  <i class="bi bi-globe-americas" style="--x:30px; --y:44px; --s:0.95rem;"></i>
+  <i class="bi bi-diagram-3" style="--x:28px; --y:80px; --s:0.85rem;"></i>
+  <i class="bi bi-book" style="--x:26px; --y:116px; --s:0.75rem;"></i>
+  <i class="bi bi-journal-code" style="--x:60px; --y:42px; --s:0.8rem;"></i>
+  <!-- Horizontal taper tucked right next to the formula -->
+  <i class="bi bi-shield-lock" style="--x:98px; --y:4px; --s:1rem;"></i>
+  <i class="bi bi-binoculars" style="--x:130px; --y:2px; --s:0.9rem;"></i>
+  <i class="bi bi-braces" style="--x:162px; --y:0px; --s:0.8rem;"></i>
+  <i class="bi bi-broadcast" style="--x:192px; --y:2px; --s:0.7rem;"></i>
+  <i class="bi bi-layers" style="--x:114px; --y:28px; --s:0.8rem;"></i>
+  <i class="bi bi-stars" style="--x:146px; --y:24px; --s:0.7rem;"></i>
+</div>
 
+<div class="corner-scatter corner-br d-none d-md-block" aria-hidden="true">
+  <div class="corner-formulas text-end">
+    <span>&Delta;x&middot;&Delta;p &ge; &hbar;/2</span>
+    <span>&Sigma; P(x<sub>i</sub>) = 1</span>
+  </div>
+  <!-- Vertical taper up the right edge -->
+  <i class="bi bi-cpu" style="--x:0px; --y:42px; --s:1.05rem;"></i>
+  <i class="bi bi-activity" style="--x:0px; --y:76px; --s:1.1rem;"></i>
+  <i class="bi bi-motherboard" style="--x:2px; --y:112px; --s:0.95rem;"></i>
+  <i class="bi bi-rocket-takeoff" style="--x:0px; --y:148px; --s:0.85rem;"></i>
+  <i class="bi bi-bezier2" style="--x:2px; --y:182px; --s:0.75rem;"></i>
+  <!-- Diagonal inner fill -->
+  <i class="bi bi-robot" style="--x:30px; --y:44px; --s:0.95rem;"></i>
+  <i class="bi bi-graph-up" style="--x:28px; --y:80px; --s:0.85rem;"></i>
+  <i class="bi bi-terminal" style="--x:26px; --y:116px; --s:0.75rem;"></i>
+  <i class="bi bi-code-slash" style="--x:60px; --y:42px; --s:0.8rem;"></i>
+  <!-- Horizontal taper tucked right next to the formula -->
+  <i class="bi bi-hexagon" style="--x:98px; --y:4px; --s:1rem;"></i>
+  <i class="bi bi-gear" style="--x:130px; --y:2px; --s:0.9rem;"></i>
+  <i class="bi bi-sliders" style="--x:162px; --y:0px; --s:0.8rem;"></i>
+  <i class="bi bi-wifi" style="--x:192px; --y:2px; --s:0.7rem;"></i>
+  <i class="bi bi-lightning-charge" style="--x:114px; --y:28px; --s:0.8rem;"></i>
+  <i class="bi bi-circle-half" style="--x:146px; --y:24px; --s:0.7rem;"></i>
+</div>
   <footer class="site-footer">
     <div class="container-xxl d-flex flex-column flex-md-row justify-content-between gap-2 text-center text-md-start">
       <span>HER Club &middot; Higher studies, Entrepreneurship, Research &middot; IIIT Bhubaneswar</span>

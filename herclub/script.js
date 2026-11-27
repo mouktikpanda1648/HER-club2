@@ -1,4 +1,4 @@
-/* HER Club · IIIT Bhubaneswar — page behaviour (Bootstrap + VanillaTilt) */
+/* HER Club · IIIT Bhubaneswar — lightweight page controller */
 (() => {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
@@ -15,30 +15,19 @@
   function applyTheme(theme) {
     const isDark = theme === 'dark';
     root.setAttribute('data-theme', theme);
-    if (themeIcon) {
-      themeIcon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
-    }
-    if (themeBtn) {
-      themeBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-    }
-    if (metaTheme) {
-      metaTheme.setAttribute('content', isDark ? '#0d0d0f' : '#1b1b1b');
-    }
+    if (themeIcon) themeIcon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+    if (themeBtn) themeBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    if (metaTheme) metaTheme.setAttribute('content', isDark ? '#0d0d0f' : '#1b1b1b');
   }
 
-  const savedTheme = localStorage.getItem('her-theme');
-  const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+  applyTheme(localStorage.getItem('her-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('her-theme', next);
+    applyTheme(next);
+  });
 
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('her-theme', next);
-      applyTheme(next);
-    });
-  }
-
-  /* ---------- DATA (edit freely) ---------- */
+  /* ---------- DATA ---------- */
   const ANNOUNCEMENTS = [
     { num: '01', tag: 'Cohort', grad: 'var(--g-r)', date: 'Nov 28, 2026', text: 'Autumn 2026 R&D Project Matchmaking applications are now open for 1st & 2nd year students.' },
     { num: '02', tag: 'Global', grad: 'var(--g-h)', date: 'Dec 03, 2026', text: 'Live Q&A session with US Graduate School Admission Chairs on MS/PhD SOP strategy.' },
@@ -116,11 +105,10 @@
     ['IISc', 'IISc', 'Bengaluru', 'logos/iisc.png']
   ];
 
-  /* ---------- ANNOUNCEMENT MARQUEE (ARROW HOVER OR MARQUEE CLICK ONLY) ---------- */
+  /* ---------- ANNOUNCEMENT MARQUEE (Bootstrap Collapse driven) ---------- */
   const annTrack = $('#announcementTrack');
   const annList = $('#announcementList');
   const annBar = $('#announcementBar');
-  const annTicker = $('#announcementTicker');
   const annToggle = $('#announcementToggle');
   const annDrawer = $('#announcementDrawer');
 
@@ -145,86 +133,95 @@
       </li>`).join('');
   }
 
-  let annPinnedOpen = false;
-  let annHoverCloseTimer = null;
+  if (annBar && annToggle && annDrawer) {
+    const bsCollapse = bootstrap.Collapse.getOrCreateInstance(annDrawer, { toggle: false });
+    let hoverTimer = null;
 
-  function setAnnouncementOpen(open) {
-    if (!annBar || !annToggle) return;
-    annBar.classList.toggle('expanded', open);
-    annToggle.setAttribute('aria-expanded', String(open));
+    annToggle.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimer);
+      bsCollapse.show();
+    });
+    annToggle.addEventListener('mouseleave', () => {
+      hoverTimer = setTimeout(() => bsCollapse.hide(), 220);
+    });
+    annDrawer.addEventListener('mouseenter', () => clearTimeout(hoverTimer));
+    annDrawer.addEventListener('mouseleave', () => {
+      hoverTimer = setTimeout(() => bsCollapse.hide(), 220);
+    });
+    document.addEventListener('click', (e) => {
+      if (!annBar.contains(e.target)) bsCollapse.hide();
+    });
   }
 
-  if (annBar && annToggle && annTicker && annDrawer) {
-    annToggle.addEventListener('mouseenter', () => {
-      clearTimeout(annHoverCloseTimer);
-      setAnnouncementOpen(true);
-    });
+  /* ---------- Carry H, E, R from Hero onto Channel cards (Document-Space Reload-Safe) ---------- */
+  const herDockPairs = [
+    { hero: $('#heroLetterH'), slot: $('#her-slot-h'), svg: $('#her-slot-h .channel-her-svg'), dx: 0, dy: 0, scale: 1 },
+    { hero: $('#heroLetterE'), slot: $('#her-slot-e'), svg: $('#her-slot-e .channel-her-svg'), dx: 0, dy: 0, scale: 1 },
+    { hero: $('#heroLetterR'), slot: $('#her-slot-r'), svg: $('#her-slot-r .channel-her-svg'), dx: 0, dy: 0, scale: 1 }
+  ];
+  const heroFadeItems = $$('.hero-fade');
+  const cornerMarks = $$('.corner-scatter');
+  const heroTiltEls = $$('.her-tilt');
+  const channelsSec = $('#channels');
+  let heroTiltDestroyed = false;
+  let cachedChannelsTop = 0;
 
-    annToggle.addEventListener('mouseleave', () => {
-      if (annPinnedOpen) return;
-      annHoverCloseTimer = setTimeout(() => setAnnouncementOpen(false), 180);
-    });
+  function getDocBox(el) {
+    let x = 0, y = 0;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    let cur = el;
+    while (cur) {
+      x += cur.offsetLeft;
+      y += cur.offsetTop;
+      cur = cur.offsetParent;
+    }
+    return { cx: x + w * 0.5, cy: y + h * 0.5, w, h, top: y };
+  }
 
-    annDrawer.addEventListener('mouseenter', () => {
-      clearTimeout(annHoverCloseTimer);
-    });
+  function measureHerGeometry() {
+    if (!channelsSec) return;
+    cachedChannelsTop = getDocBox(channelsSec).top;
 
-    annDrawer.addEventListener('mouseleave', () => {
-      if (annPinnedOpen) return;
-      annHoverCloseTimer = setTimeout(() => setAnnouncementOpen(false), 180);
-    });
+    herDockPairs.forEach((item) => {
+      if (!item.hero || !item.slot) return;
+      const hBox = getDocBox(item.hero);
+      const sBox = getDocBox(item.slot);
 
-    annTicker.addEventListener('click', (e) => {
-      e.stopPropagation();
-      annPinnedOpen = !annBar.classList.contains('expanded');
-      setAnnouncementOpen(annPinnedOpen);
-    });
-
-    annToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      annPinnedOpen = !annPinnedOpen;
-      setAnnouncementOpen(annPinnedOpen);
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!annBar.contains(e.target)) {
-        annPinnedOpen = false;
-        setAnnouncementOpen(false);
+      if (hBox.h > 0 && sBox.h > 0) {
+        item.dx = sBox.cx - hBox.cx;
+        item.dy = sBox.cy - hBox.cy;
+        item.scale = sBox.h / hBox.h;
       }
     });
   }
 
-  /* ---------- Carry H, E, R from Hero directly onto each Channel image on scroll ---------- */
-  const herDockPairs = [
-    { hero: $('#heroLetterH'), slot: $('#her-slot-h') },
-    { hero: $('#heroLetterE'), slot: $('#her-slot-e') },
-    { hero: $('#heroLetterR'), slot: $('#her-slot-r') }
-  ];
-  const heroFadeItems = $$('.hero-fade');
-  const channelsSec = $('#channels');
-
   function updateHerCarry() {
     if (!channelsSec || reduced || window.innerWidth <= 991) {
-      herDockPairs.forEach(({ hero, slot }) => {
+      herDockPairs.forEach(({ hero, svg }) => {
         if (hero) {
           hero.style.opacity = '1';
           hero.style.transform = '';
         }
-        const svg = slot?.querySelector('.channel-her-svg');
-        if (svg) svg.classList.add('visible');
+        svg?.classList.add('visible');
       });
       heroFadeItems.forEach((el) => {
         el.style.opacity = '1';
         el.style.visibility = 'visible';
       });
+      cornerMarks.forEach((el) => {
+        el.style.opacity = '0.34';
+        el.style.visibility = 'visible';
+        el.style.transform = '';
+      });
       return;
     }
 
-    const secRect = channelsSec.getBoundingClientRect();
     const vh = innerHeight;
     const chromeH = 94;
-    const t = clamp((vh - secRect.top) / (vh - chromeH), 0, 1);
-    const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const currentTop = cachedChannelsTop - window.scrollY;
+    const t = clamp(((vh - currentTop) / (vh - chromeH)) * 1.35, 0, 1);
+    const eased = 1 - Math.pow(1 - t, 2.4);
 
     const fadeOpacity = clamp(1 - t * 3.2, 0, 1);
     heroFadeItems.forEach((el) => {
@@ -232,61 +229,163 @@
       el.style.visibility = fadeOpacity <= 0.02 ? 'hidden' : 'visible';
     });
 
-    herDockPairs.forEach(({ hero, slot }) => {
-      if (!hero || !slot) return;
+    cornerMarks.forEach((el) => {
+      el.style.opacity = (fadeOpacity * 0.34).toFixed(3);
+      el.style.visibility = fadeOpacity <= 0.02 ? 'hidden' : 'visible';
+      el.style.transform = `translateY(${((1 - fadeOpacity) * 14).toFixed(1)}px)`;
+    });
+
+    if (t > 0.01 && !heroTiltDestroyed) {
+      heroTiltEls.forEach(el => el.vanillaTilt?.destroy());
+      heroTiltDestroyed = true;
+    }
+
+    herDockPairs.forEach((item) => {
+      const { hero, svg, dx, dy, scale } = item;
+      if (!hero) return;
       if (t > 0.005) hero.classList.add('is-moving');
-      hero.style.transform = 'none';
-
-      const hRect = hero.getBoundingClientRect();
-      const sRect = slot.getBoundingClientRect();
-      const svg = slot.querySelector('.channel-her-svg');
-
-      const dx = (sRect.left + sRect.width * 0.5) - (hRect.left + hRect.width * 0.5);
-      const dy = (sRect.top + sRect.height * 0.5) - (hRect.top + hRect.height * 0.5);
-      const targetScale = (sRect.height) / (hRect.height || 1);
 
       if (t >= 0.96) {
         hero.style.opacity = '0';
-        if (svg) svg.classList.add('visible');
+        hero.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+        svg?.classList.add('visible');
       } else {
         hero.style.opacity = '1';
-        if (svg) svg.classList.remove('visible');
-        if (t > 0.01 && !heroTiltDestroyed) {
-          heroTiltEls.forEach(el => {
-            if (el.vanillaTilt) el.vanillaTilt.destroy();
-          });
-          heroTiltDestroyed = true;
-        }
-        hero.style.transform = `translate3d(${(dx * eased).toFixed(1)}px, ${(dy * eased).toFixed(1)}px, 0) scale(${(1 + (targetScale - 1) * eased).toFixed(4)})`;
+        svg?.classList.remove('visible');
+        hero.style.transform = `translate3d(${(dx * eased).toFixed(1)}px, ${(dy * eased).toFixed(1)}px, 0) scale(${(1 + (scale - 1) * eased).toFixed(4)})`;
       }
     });
   }
 
-  /* ---------- NAV: scroll state, full-gradient progress, active link ---------- */
-  const nav = $('#nav'), bar = $('#progress');
-  const onScroll = () => {
+  /* ---------- Smooth, High-Velocity Scroll Glide in Hero -> Channels Zone ---------- */
+  let glideTargetY = window.scrollY;
+  let glideCurrentY = window.scrollY;
+  let isGliding = false;
+
+  const stopGlide = () => {
+    isGliding = false;
+  };
+  window.addEventListener('touchstart', stopGlide, { passive: true });
+  window.addEventListener('keydown', stopGlide, { passive: true });
+  window.addEventListener('mousedown', stopGlide, { passive: true });
+
+  function runGlideLoop() {
+    if (!isGliding) return;
+    const diff = glideTargetY - glideCurrentY;
+    if (Math.abs(diff) < 0.6) {
+      window.scrollTo({ top: glideTargetY, behavior: 'instant' });
+      isGliding = false;
+      return;
+    }
+    glideCurrentY += diff * 0.24;
+    window.scrollTo({ top: glideCurrentY, behavior: 'instant' });
+    requestAnimationFrame(runGlideLoop);
+  }
+
+  if (!reduced) {
+    window.addEventListener('wheel', (e) => {
+      if (!channelsSec || window.innerWidth < 992 || e.ctrlKey) return;
+      const channelsSnapTop = Math.max(0, cachedChannelsTop - 94);
+      const y = window.scrollY;
+
+      const inTransitionZone = (y < channelsSnapTop - 2) || (y <= channelsSnapTop + 12 && e.deltaY < 0);
+      if (!inTransitionZone) {
+        isGliding = false;
+        return;
+      }
+
+      e.preventDefault();
+      if (!isGliding) {
+        glideCurrentY = y;
+        glideTargetY = y;
+      }
+
+      const unitScale = e.deltaMode === 1 ? 36 : (e.deltaMode === 2 ? innerHeight : 1);
+      const boostedDelta = e.deltaY * unitScale * 2.4;
+
+      glideTargetY = clamp(glideTargetY + boostedDelta, 0, channelsSnapTop);
+
+      if (!isGliding) {
+        isGliding = true;
+        requestAnimationFrame(runGlideLoop);
+      }
+    }, { passive: false });
+  }
+
+  /* ---------- Reveal on scroll (Reload-Safe + Failsafe Sweep) ---------- */
+  const rv = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        rv.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '120px 0px 120px 0px' });
+
+  function revealVisibleAndAbove() {
+    const triggerBottom = window.innerHeight + 120;
+    $$('.reveal:not(.in)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= triggerBottom) {
+        el.classList.add('in');
+        rv.unobserve(el);
+      }
+    });
+  }
+
+  function observeReveals(elements) {
+    elements.forEach(el => rv.observe(el));
+    revealVisibleAndAbove();
+  }
+
+  observeReveals($$('.reveal'));
+
+  /* ---------- NAV: rAF-batched progress bar & carry update ---------- */
+  const bar = $('#progress');
+  let scrollTicking = false;
+
+  const renderFrame = () => {
+    scrollTicking = false;
     const h = document.documentElement;
     const denom = Math.max(1, h.scrollHeight - h.clientHeight);
-    const pct = clamp((h.scrollTop / denom) * 100, 0, 100);
-    bar.style.setProperty('--scroll-pct', pct.toFixed(2) + '%');
-    nav.classList.toggle('scrolled', h.scrollTop > 8);
+    bar.style.setProperty('--scroll-pct', clamp((h.scrollTop / denom) * 100, 0, 100).toFixed(2) + '%');
     updateHerCarry();
+    revealVisibleAndAbove();
   };
+
+  const onScroll = () => {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(renderFrame);
+    }
+  };
+
+  const syncLayout = () => {
+    measureHerGeometry();
+    renderFrame();
+  };
+
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', updateHerCarry, { passive: true });
-  addEventListener('load', () => { onScroll(); updateHerCarry(); });
-  onScroll();
+  addEventListener('resize', syncLayout, { passive: true });
+  addEventListener('load', syncLayout);
+  addEventListener('pageshow', syncLayout);
+  document.fonts?.ready.then(syncLayout);
+  setTimeout(syncLayout, 150);
+  setTimeout(() => $$('.reveal:not(.in)').forEach(el => el.classList.add('in')), 650);
+  syncLayout();
 
   const links = $$('.site-nav .nav-link');
   const spy = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
   }), { rootMargin: '-45% 0px -50% 0px' });
-  ['channels', 'domains', 'perks', 'people', 'partners'].forEach(id => {
+  ['channels', 'partners', 'domains', 'perks', 'people'].forEach(id => {
     const el = $('#' + id);
     if (el) spy.observe(el);
   });
   links.forEach(a => a.addEventListener('click', () => {
-    const m = $('#navMenu'); if (m.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(m).hide();
+    stopGlide();
+    const m = $('#navMenu');
+    if (m.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(m).hide();
   }));
 
   /* ---------- HERO: cursor glow ---------- */
@@ -299,26 +398,19 @@
     });
   }
 
-  /* ---------- VanillaTilt.js: subtle tilt + slight zoom (excluded from perk card) ---------- */
+  /* ---------- VanillaTilt.js ---------- */
   function initTilt(elements, opts = {}) {
     if (reduced || !window.VanillaTilt || !elements.length || !matchMedia('(pointer:fine)').matches) return;
-    window.VanillaTilt.init(elements, Object.assign({
-      max: 4,
-      speed: 450,
-      scale: 1.02,
-      glare: false
-    }, opts));
+    window.VanillaTilt.init(elements, Object.assign({ max: 4, speed: 450, scale: 1.02, glare: false }, opts));
   }
   initTilt($$('.tilt'));
-  const heroTiltEls = $$('.her-tilt');
-  initTilt(heroTiltEls, { max: 6, speed: 400, scale: 1.03 });
-  let heroTiltDestroyed = false;
+  if (window.scrollY <= 10) {
+    initTilt(heroTiltEls, { max: 6, speed: 400, scale: 1.03 });
+  } else {
+    heroTiltDestroyed = true;
+  }
 
-  /* ---------- Reveal on scroll ---------- */
-  const rv = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target); } }), { threshold: .12 });
-  $$('.reveal').forEach(el => rv.observe(el));
-
-  /* ---------- DOMAINS: Desktop Hex Explorer + Mobile Filterable Horizontal Cards ---------- */
+  /* ---------- DOMAINS: Desktop Hex + Mobile Filterable Cards ---------- */
   const grid = $('#hexgrid'), P = { t: $('#dTitle'), c: $('#dCount'), d: $('#dDesc'), g: $('#dTags'), panel: $('#domainPanel'), fill: $('#autoBar') };
   const DWELL = 7000; let dIdx = 0, dTimer = null, dPaused = false;
 
@@ -326,7 +418,7 @@
     const w = document.createElement('div');
     w.className = 'hexwrap';
     w.style.setProperty('--dx', d.pos[0]); w.style.setProperty('--dy', d.pos[1]);
-    w.innerHTML = `<button class="hex" role="tab" aria-selected="false" aria-label="${d.name}" style="--hg:${d.grad}"><span class="hex-inner"><i class="bi ${d.icon}" aria-hidden="true"></i><span>${d.short}</span></span></button>`;
+    w.innerHTML = `<button class="hex" role="tab" aria-selected="false" aria-label="${d.name}" style="--hg:${d.grad}"><span class="hex-inner"><i class="bi ${d.icon}" aria-hidden="true"></i><span class="mt-1" style="font-size: 15px;">${d.short}</span></span></button>`;
     w.firstElementChild.addEventListener('click', () => { selectDomain(i); restartAuto(); });
     w.firstElementChild.addEventListener('keydown', e => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { selectDomain((dIdx + 1) % DOMAINS.length); restartAuto(); }
@@ -390,8 +482,7 @@
       btn.addEventListener('click', () => {
         const idx = +btn.dataset.didx;
         setActiveMobileFilter(idx);
-        const targetCard = $(`#m-domain-card-${idx}`, mCards);
-        targetCard?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        $(`#m-domain-card-${idx}`, mCards)?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       });
     });
 
@@ -400,15 +491,10 @@
       clearTimeout(mScrollTimer);
       mScrollTimer = setTimeout(() => {
         const center = mCards.scrollLeft + mCards.clientWidth * 0.5;
-        let closestIdx = 0;
-        let bestDist = Infinity;
+        let closestIdx = 0, bestDist = Infinity;
         $$('.mobile-domain-card', mCards).forEach((card, idx) => {
-          const cardCenter = card.offsetLeft + card.offsetWidth * 0.5;
-          const dist = Math.abs(center - cardCenter);
-          if (dist < bestDist) {
-            bestDist = dist;
-            closestIdx = idx;
-          }
+          const dist = Math.abs(center - (card.offsetLeft + card.offsetWidth * 0.5));
+          if (dist < bestDist) { bestDist = dist; closestIdx = idx; }
         });
         setActiveMobileFilter(closestIdx);
       }, 90);
@@ -446,11 +532,11 @@
   $('#peopleRow').innerHTML = PEOPLE.map(p => `
     <div class="person-col reveal">
       <div class="person">
-        <div class="avatar" style="--pg:${p.grad}" aria-hidden="true">
-          <img class="avatar-img" src="${p.photo}" alt="${p.name}"
-            onerror="this.parentElement.classList.add('fallback'); this.replaceWith(Object.assign(document.createElement('b'),{textContent:'${p.initials}'}))">
-        </div>
         <div class="person-card tilt" style="--pg:${p.grad}">
+          <div class="person-photo-wrap" style="--pg:${p.grad}">
+            <img class="avatar-img" src="${p.photo}" alt="${p.name}"
+              onerror="this.parentElement.classList.add('fallback'); this.replaceWith(Object.assign(document.createElement('b'),{textContent:'${p.initials}'}))">
+          </div>
           <div class="person-meta-head">
             <h3>${p.name}</h3>
             <span class="role">${p.role}</span>
@@ -460,19 +546,15 @@
         </div>
       </div>
     </div>`).join('');
-  $$('#peopleRow .reveal').forEach(el => rv.observe(el));
+  observeReveals($$('#peopleRow .reveal'));
   initTilt($$('#peopleRow .tilt'));
 
-  /* ---------- PARTNERS marquee (duplicated for a seamless loop) ---------- */
+  /* ---------- PARTNERS marquee ---------- */
   const pHTML = PARTNERS.map(([s, n, sub, logo]) => `
     <div class="partner" title="${n} — ${sub}">
       <div class="partner-logo-box">
         <img src="${logo}" alt="${n} logo" loading="lazy"
           onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'seal',textContent:'${s}'}))">
-      </div>
-      <div class="partner-meta">
-        <strong>${n}</strong>
-        <small>${sub}</small>
       </div>
     </div>`).join('');
   $('#marquee').innerHTML = pHTML + pHTML;
@@ -495,78 +577,53 @@
     form.reset();
   });
 
-  /* ---------- BIDIRECTIONAL, FAST & NON-RIGOROUS SCROLL SNAP ---------- */
+  /* ---------- SLIGHT, IMMEDIATE MICRO-SNAP (HERO, CHANNELS & DOMAINS ONLY) ---------- */
   if (!reduced) {
-    const snapSections = $$('.snap-section');
+    const lightSnapEls = $$('.light-snap');
     const chromeOffset = 94;
-    let snapIdleTimer = null;
-    let isAutoSnapping = false;
-    let lastScrollY = window.scrollY;
-    let scrollDir = 1; // 1 = down, -1 = up
+    const captureRadius = 48;
+    let isNudging = false;
+    let fallbackTimer = null;
 
-    const getSectionTop = (el) => {
-      if (el.id === 'top') return 0;
-      return Math.max(0, el.getBoundingClientRect().top + window.scrollY - chromeOffset);
-    };
+    const getTargetY = (el) => el.id === 'top'
+      ? 0
+      : Math.max(0, getDocBox(el).top - chromeOffset);
 
-    // Cancel any programmatic snap immediately if the user interacts
-    const cancelAutoSnap = () => {
-      if (isAutoSnapping) isAutoSnapping = false;
-    };
-    window.addEventListener('wheel', cancelAutoSnap, { passive: true });
-    window.addEventListener('touchstart', cancelAutoSnap, { passive: true });
-    window.addEventListener('keydown', cancelAutoSnap, { passive: true });
+    const cancelNudge = () => { isNudging = false; };
+    window.addEventListener('wheel', cancelNudge, { passive: true });
+    window.addEventListener('touchstart', cancelNudge, { passive: true });
+    window.addEventListener('keydown', cancelNudge, { passive: true });
 
-    const settleBidirectional = () => {
-      if (isAutoSnapping || window.innerWidth <= 991 || window.innerHeight <= 660) return;
-
+    const microAlign = () => {
+      if (isNudging || isGliding || window.innerWidth < 992 || window.innerHeight < 661) return;
       const y = window.scrollY;
-      const points = snapSections.map(getSectionTop);
-      const lastSnapPoint = points[points.length - 1] ?? 0;
+      let nearest = null;
+      let minDist = Infinity;
 
-      // Free scrolling below #partners (footer area)
-      if (y > lastSnapPoint + 6) return;
-
-      let idx = 0;
-      for (let i = 0; i < points.length - 1; i++) {
-        if (y >= points[i] - 4 && y < points[i + 1]) {
-          idx = i;
-          break;
+      for (const el of lightSnapEls) {
+        const target = getTargetY(el);
+        const dist = Math.abs(target - y);
+        if (dist < minDist) {
+          minDist = dist;
+          nearest = target;
         }
       }
 
-      const start = points[idx];
-      const end = points[idx + 1] ?? start;
-      const span = end - start;
-      if (span <= 10) return;
-
-      const progress = (y - start) / span;
-      if (progress < 0.01 || progress > 0.99) return;
-
-      // Bidirectional directional threshold (32% travel in intended direction advances; otherwise gently settles back)
-      let targetY = null;
-      if (scrollDir > 0) {
-        targetY = progress >= 0.32 ? end : start;
-      } else {
-        targetY = progress <= 0.68 ? start : end;
+      if (nearest !== null && minDist > 2 && minDist <= captureRadius) {
+        isNudging = true;
+        window.scrollTo({ top: nearest, behavior: 'smooth' });
+        setTimeout(() => { isNudging = false; }, 220);
       }
-
-      if (targetY === null || Math.abs(targetY - y) < 4) return;
-
-      isAutoSnapping = true;
-      window.scrollTo({ top: targetY, behavior: 'smooth' });
-      setTimeout(() => { isAutoSnapping = false; }, 280);
     };
 
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (Math.abs(y - lastScrollY) > 1) {
-        scrollDir = y > lastScrollY ? 1 : -1;
-        lastScrollY = y;
-      }
-      if (isAutoSnapping) return;
-      clearTimeout(snapIdleTimer);
-      snapIdleTimer = setTimeout(settleBidirectional, 110);
-    }, { passive: true });
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', microAlign, { passive: true });
+    } else {
+      window.addEventListener('scroll', () => {
+        if (isNudging || isGliding) return;
+        clearTimeout(fallbackTimer);
+        fallbackTimer = setTimeout(microAlign, 75);
+      }, { passive: true });
+    }
   }
 })();
